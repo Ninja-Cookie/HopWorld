@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static GoalManager;
 using static HopWorld.BingoSyncManager.BingoHandler;
 
 
@@ -12,6 +11,24 @@ namespace HopWorld.Patches
 {
     internal static class Patch_BingoChecks
     {
+        private static bool TryGetSceneDisplayName(out string sceneName)
+        {
+            sceneName = string.Empty;
+            if (TryGetSceneUOD(SceneManager.GetActiveScene(), out var scene_uod) && TryGetDefaultName(scene_uod.displayName, out var scene_name))
+                sceneName = scene_name;
+
+            return !string.IsNullOrEmpty(sceneName);
+        }
+
+        private static bool TryGetSceneUOD(Scene scene, out UniqueObjectData uod)
+        {
+            string path         = scene.path ?? string.Empty;
+            var sceneContents   = ScriptableObjectSingleton<SceneUODManifest>.Instance?.sceneContents;
+            uod                 = sceneContents?.FirstOrDefault(x => x.scene.GetPath() == path)?.uods?.FirstOrDefault();
+
+            return uod != null;
+        }
+
         private static bool TryGetDefaultName(LString name, out string defaultName)
         {
             defaultName = string.Empty;
@@ -23,7 +40,10 @@ namespace HopWorld.Patches
         private static void TrySendItemData<T>(this T data, BingoType type) where T : ItemData
         {
             if (!string.IsNullOrEmpty(data?.DisplayName) && TryGetDefaultName(data.nameOverride, out var info))
+            {
+                Debug.LogError($"DISCOVER: {info}");
                 TryMarkSlot(new BingoPackage(type, info));
+            }
         }
 
         private static void TrySendChallenge()
@@ -176,7 +196,7 @@ namespace HopWorld.Patches
                 if (!justCompleted || (goalData != null && ___goalDataToStateMap != null && ___goalDataToStateMap.TryGetValue(goalData, out var goalState) && !goalState.isComplete))
                     return;
 
-                //Debug.LogError($"## GOAL ##: {goalData.Name}");
+                Debug.LogError($"## GOAL ##: {goalData.Name}");
                 TrySendQuest(goalData.Name);
             }
         }

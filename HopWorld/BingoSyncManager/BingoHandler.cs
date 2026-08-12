@@ -60,7 +60,13 @@ namespace HopWorld.BingoSyncManager
 
             {"BackpackSlot2",                       "Backpack Slot 2"},
             {"HealthUpgrade2",                      "Health Upgrade 2"},
-            {"HealthUpgrade3",                      "Health Upgrade 3"}
+            {"HealthUpgrade3",                      "Health Upgrade 3"},
+
+            {"BugMilestone_BugFinder",              "5 Bugs for Bugsy"},
+            {"BugMilestone_Heart1",                 "8 Bugs for Bugsy"},
+            {"BugMilestone_Hat",                    "15 Bugs for Bugsy"},
+            {"BugMilestone_Heart2",                 "20 Bugs for Bugsy"},
+            {"BugMilestone_Wallet",                 "25 Bugs for Bugsy"}
         };
 
         internal readonly static Dictionary<string[], string> Photos = new Dictionary<string[], string>()
@@ -109,7 +115,7 @@ namespace HopWorld.BingoSyncManager
             {
                 case BingoType.DISCOVER:
                 case BingoType.MIXTAPE:
-                    var discSlot = itemSlots.FirstOrDefault(x => x.Info.Trim().EndsWith(bingoPackage.Info, System.StringComparison.OrdinalIgnoreCase));
+                    var discSlot = itemSlots.FirstOrDefault(x => x.Info.ToLower().Replace($"[{bingoPackage.Type.ToString().ToLower()}]", string.Empty).Trim().Equals(bingoPackage.Info, System.StringComparison.OrdinalIgnoreCase));
                     if (discSlot != null)
                         validItemSlot.Add(discSlot);
                 break;

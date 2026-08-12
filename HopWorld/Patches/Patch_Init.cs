@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using HopWorld.BingoSyncManager;
 using Luckshot.Input;
 
 namespace HopWorld.Patches
@@ -15,6 +16,10 @@ namespace HopWorld.Patches
                 if (!Initialized)
                 {
                     UnityEngine.GameObject.DontDestroyOnLoad(new UnityEngine.GameObject("HopWorld", typeof(BingoSyncManager.BingoSyncGUI)));
+                    UnityEngine.GameObject.DontDestroyOnLoad(new UnityEngine.GameObject("HopWorldManager", typeof(BingoSyncManager.BingoManager)));
+
+                    BingoSyncGUI.Instance.gameObject.SetActive(false);
+                    BingoManager.Instance.gameObject.SetActive(true);
                     Initialized = true;
                 }
             }

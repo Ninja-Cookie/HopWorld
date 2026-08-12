@@ -10,8 +10,6 @@ namespace HopWorld.BingoSyncManager
 {
     internal class BingoSyncGUI : Singleton<BingoSyncGUI>
     {
-        private static bool WasInputEnabled = false;
-
         public static bool GUIOpen = false;
 
         public static bool Countdown = false;
@@ -211,25 +209,6 @@ namespace HopWorld.BingoSyncManager
                 value = GUI.TextField(rectToUse, text);
 
             return textFields[ID] = value;
-        }
-
-        public void Update()
-        {
-            if (InputManager.GameplayActionMap?.Gameplay != null && UnityEngine.Input.GetKeyDown(KeyCode.F3))
-            {
-                GUIOpen = !GUIOpen;
-                if (GUIOpen)
-                {
-                    WasInputEnabled = InputManager.GameplayActionMap.Gameplay.enabled;
-                    InputManager.GameplayActionMap.Gameplay.Disable();
-                    //Cursor.visible = true;
-                }
-                else if (WasInputEnabled)
-                {
-                    InputManager.GameplayActionMap.Gameplay.Enable();
-                    //Cursor.visible = false;
-                }
-            }
         }
     }
 }

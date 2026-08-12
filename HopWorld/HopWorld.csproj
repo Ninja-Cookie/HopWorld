@@ -99,17 +99,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BingoSyncManager\BingoHandler.cs" />
+    <Compile Include="BingoSyncManager\BingoManager.cs" />
     <Compile Include="BingoSyncManager\BingoSyncGUI.cs" />
     <Compile Include="BingoSyncManager\BingoSyncGUIConfig.cs" />
     <Compile Include="BingoSyncManager\TrueBingoSync.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Patches\Patch_Achievements.cs" />
     <Compile Include="Patches\Patch_BingoChecks.cs" />
+    <Compile Include="Patches\Patch_ExposePrivateStatic.cs" />
     <Compile Include="Patches\Patch_Init.cs" />
     <Compile Include="Patches\Patch_NewGame.cs" />
     <Compile Include="Patches\Patch_StateWatcher.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomizeCostumeHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

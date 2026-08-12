@@ -86,6 +86,10 @@ namespace HopWorld.Patches
                         SingletonPropertyItem<GoalManager>.Instance.CompleteGoal(goal);
                 }
 
+                //var data = GoalManager.Instance.LookupGoalData("VoidFinale_TakeoverFinished");
+                //SingletonPropertyItem<GoalManager>.Instance.UncompleteGoal(data);
+
+                RandomizeCostumeHandler.RandomizeCostume(RandomizeCostumeHandler.RandomCostumeType.Everything);
                 SingletonPropertyItem<SaveManager>.Instance.TrySaveWorldState(null, false);
             }
         }
