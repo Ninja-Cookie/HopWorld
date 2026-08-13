@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using UnityEngine;
 using static BingoSyncAPI.BingoSyncTypes;
 using static HopWorld.BingoSyncManager.TrueBingoSync;
 

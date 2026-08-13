@@ -8,6 +8,10 @@ using System.Linq;
 using UnityEngine;
 using System.Reflection;
 
+// ##
+// Really old ugly code pulled from an earlier project. It works.
+// ##
+
 namespace HopWorld.BingoSyncManager
 {
     internal static class TrueBingoSync
@@ -15,8 +19,6 @@ namespace HopWorld.BingoSyncManager
         public static readonly BingoSync bingoSync = new BingoSync();
 
         public static bool IsUpdatingColor = false;
-
-        private static bool _paused = false;
 
         private static List<BingoSync.MessageReceived> receivers = new List<BingoSync.MessageReceived>();
 
@@ -55,9 +57,8 @@ namespace HopWorld.BingoSyncManager
                         break;
 
                         case "pause":
-                            UnityEngine.Time.timeScale = 0f;
-                            _paused = true;
-                            BingoSyncGUI.Pause = true;
+                            BingoSyncGUI.Pause = BingoManager.GamePaused = true;
+                            BingoManager.PauseGame();
                         break;
 
                         case "resume":
@@ -73,15 +74,9 @@ namespace HopWorld.BingoSyncManager
             }
         }
 
-        public static void Update()
-        {
-            if (_paused)
-                UnityEngine.Time.timeScale = 0f;
-        }
-
         private static async void StartCountdown(bool resume = false)
         {
-            if (_paused && !resume)
+            if (BingoManager.GamePaused && !resume)
                 return;
 
             if (resume)
@@ -110,8 +105,8 @@ namespace HopWorld.BingoSyncManager
 
                         if (resume)
                         {
-                            _paused = false;
-                            UnityEngine.Time.timeScale = 1f;
+                            BingoManager.GamePaused = false;
+                            BingoManager.UnpauseGame();
                         }
                     }
 

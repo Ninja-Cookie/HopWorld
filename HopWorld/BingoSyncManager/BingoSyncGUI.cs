@@ -10,11 +10,9 @@ namespace HopWorld.BingoSyncManager
 {
     internal class BingoSyncGUI : Singleton<BingoSyncGUI>
     {
-        public static bool GUIOpen = false;
-
-        public static bool Countdown = false;
-        public static bool Pause = false;
-        public static string countdownMessage = "";
+        public static bool      Countdown           = false;
+        public static bool      Pause               = false;
+        public static string    countdownMessage    = "";
 
         private Dictionary<string, string> textFields = new Dictionary<string, string>();
 
@@ -52,7 +50,7 @@ namespace HopWorld.BingoSyncManager
         {
             SetupStyles();
 
-            if (GUIOpen)
+            if (BingoManager.GUIOpen)
             {
                 GUIWindow(0, windowName, new Color(0, 0, 0, 1f));
             }
