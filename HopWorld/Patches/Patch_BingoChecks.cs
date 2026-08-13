@@ -196,7 +196,7 @@ namespace HopWorld.Patches
                 if (!justCompleted || (goalData != null && ___goalDataToStateMap != null && ___goalDataToStateMap.TryGetValue(goalData, out var goalState) && !goalState.isComplete))
                     return;
 
-                Debug.LogError($"## GOAL ##: {goalData.Name}");
+                //Debug.LogError($"## GOAL ##: {goalData.Name}");
                 TrySendQuest(goalData.Name);
             }
         }
