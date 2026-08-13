@@ -41,7 +41,7 @@ namespace HopWorld.Patches
         {
             if (!string.IsNullOrEmpty(data?.DisplayName) && TryGetDefaultName(data.nameOverride, out var info))
             {
-                Debug.LogError($"DISCOVER: {info}");
+                //Debug.LogError($"DISCOVER: {info}");
                 TryMarkSlot(new BingoPackage(type, info));
             }
         }

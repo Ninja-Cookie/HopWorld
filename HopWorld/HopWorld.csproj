@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -103,6 +104,8 @@
     <Compile Include="BingoSyncManager\BingoSyncGUI.cs" />
     <Compile Include="BingoSyncManager\BingoSyncGUIConfig.cs" />
     <Compile Include="BingoSyncManager\TrueBingoSync.cs" />
+    <Compile Include="Data\DataHandler.cs" />
+    <Compile Include="Data\DataInfo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Patches\Patch_Achievements.cs" />
     <Compile Include="Patches\Patch_BingoChecks.cs" />

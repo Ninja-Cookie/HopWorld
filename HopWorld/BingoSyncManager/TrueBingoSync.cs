@@ -1,12 +1,10 @@
 ﻿using BingoSyncAPI;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System;
 using static BingoSyncAPI.BingoSyncTypes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Reflection;
 
 // ##
 // Really old ugly code pulled from an earlier project. It works.
@@ -123,6 +121,7 @@ namespace HopWorld.BingoSyncManager
             {
                 RemoveReceivers();
                 AddReceiver(OnMessage);
+                Data.DataHandler.Save();
             }
             else
             {
@@ -174,6 +173,9 @@ namespace HopWorld.BingoSyncManager
             IsUpdatingColor = true;
             await bingoSync.SetPlayerColor(playerColor);
             IsUpdatingColor = false;
+
+            if (bingoSync?.Status == BingoSync.ConnectionStatus.Connected)
+                Data.DataHandler.Save();
         }
     }
 }

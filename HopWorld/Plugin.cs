@@ -1,19 +1,22 @@
 ﻿using BepInEx;
 using HarmonyLib;
+using System.Reflection;
 
 namespace HopWorld
 {
-    [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
+    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
-        public const string pluginGuid      = "ninjacookie.hops.hopworld";
-        public const string pluginName      = "Hop World";
-        public const string pluginVersion   = "1.0.0";
+        public const string PluginGuid      = "ninjacookie.hops.hopworld";
+        public const string PluginName      = "Hop World";
+        public const string PluginVersion   = "1.0.0";
 
         public void Awake()
         {
-            var harmony = new Harmony(pluginGuid);
-            harmony.PatchAll();
+            var harmony = new Harmony(PluginGuid);
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+            Data.DataHandler.Load();
         }
     }
 }

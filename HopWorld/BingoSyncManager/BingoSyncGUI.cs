@@ -42,8 +42,8 @@ namespace HopWorld.BingoSyncManager
 
         protected override void AwakeIfNeeded()
         {
-            if (RoomID != string.Empty && PlayerName != string.Empty)
-                JoinRoom();
+            //if (RoomID != string.Empty && PlayerName != string.Empty)
+            //    JoinRoom();
         }
 
         private void OnGUI()
@@ -98,10 +98,10 @@ namespace HopWorld.BingoSyncManager
             return Color.black;
         }
 
-        private BingoSyncTypes.PlayerColors PlayerColor = BingoSyncTypes.PlayerColors.Red;
-        private string RoomID       = string.Empty;
-        private string Password     = string.Empty;
-        private string PlayerName   = string.Empty;
+        internal static BingoSyncTypes.PlayerColors PlayerColor = BingoSyncTypes.PlayerColors.Red;
+        internal static string                      RoomID      = string.Empty;
+        internal static string                      Password    = string.Empty;
+        internal static string                      PlayerName  = string.Empty;
 
         private string ConnectionColor      => TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connected       ? "lime"    : TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connecting ? "orange" : "red";
         private string ConnectColor         => TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Disconnected    ? "white"   : "grey";
