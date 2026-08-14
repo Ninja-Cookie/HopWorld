@@ -1,7 +1,11 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Resources;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static PanelTitle;
 
 namespace HopWorld.Patches
@@ -64,6 +68,23 @@ namespace HopWorld.Patches
                 StartingNewGame = true;
                 scenePath       = string.Join("", Path, Location, Extension);
                 checkpointName  = string.Empty;
+
+                Singleton<LoadManager>.Instance.SceneLoaded -= EnableCloset;
+                Singleton<LoadManager>.Instance.SceneLoaded += EnableCloset;
+            }
+
+            private static void EnableCloset(string scene)
+            {
+                if (SceneManager.GetActiveScene().name != Location)
+                    return;
+
+                var closet = GameObject.FindObjectOfType<ClosetInteractable>(true)?.gameObject;
+                if (closet != null)
+                {
+                    closet.SetActive(true);
+                    closet.transform.position = new Vector3(-199.17f, 42.72f, 47.69f);
+                    closet.transform.rotation = Quaternion.Euler(new Vector3(0.00f, 237.00f, 0.00f));
+                }
             }
         }
 
@@ -81,16 +102,42 @@ namespace HopWorld.Patches
                 player.Motor.SnapToLocation(StartingPosition, Quaternion.Euler(StartingAngle.x, StartingAngle.y, StartingAngle.z));
                 var goals = SingletonPropertyItem<GoalManager>.Instance.GetValue<List<GoalData>>("allGoals");
                 foreach (var goal in goals)
-                {
                     if (ImportantGoals_Any.Any(x => goal.Name.Contains(x)) || ImportantGoals_Start.Any(x => goal.Name.StartsWith(x)))
                         SingletonPropertyItem<GoalManager>.Instance.CompleteGoal(goal);
-                }
 
                 //var data = GoalManager.Instance.LookupGoalData("VoidFinale_TakeoverFinished");
                 //SingletonPropertyItem<GoalManager>.Instance.UncompleteGoal(data);
 
+                foreach (KeyValuePair<StringHash, CostumeData> costumeKVP in Patch_ExposePrivateStatic.CostumeDataLookup)
+                    player.Costume.UnlockCostume(costumeKVP.Value);
+
+                foreach(ItemData hatItem in RandomizeCostumeHandler.AllHats)
+                    player.Inventory.TryDiscoverItemData(hatItem);
+
                 RandomizeCostumeHandler.RandomizeCostume(RandomizeCostumeHandler.RandomCostumeType.Everything);
                 SingletonPropertyItem<SaveManager>.Instance.TrySaveWorldState(null, false);
+            }
+        }
+
+        // Finds IsOnlineAndValid for adding skin options and just returns true instead because I wanted frog color as an option
+        [HarmonyPatch(typeof(ClosetInteractable), "MovePlayerToCheckpointOrSpawn")]
+        public static class Patch_ClosetInteractable_ShowStartMenu
+        {
+            private static MethodInfo target = AccessTools.Method(typeof(NetworkUtils), "IsOnlineAndValid", new[] { typeof(Fusion.NetworkObject) });
+
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                foreach (var instruction in instructions)
+                {
+                    if ((instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Callvirt) && instruction.operand as MethodInfo == target)
+                    {
+                        yield return new CodeInstruction(OpCodes.Pop);
+                        yield return new CodeInstruction(OpCodes.Ldc_I4_1);
+                        continue;
+                    }
+
+                    yield return instruction;
+                }
             }
         }
     }

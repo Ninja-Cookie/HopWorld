@@ -17,7 +17,7 @@ namespace HopWorld
         }
 
         private static ItemData[] _allHats;
-        private static ItemData[] AllHats
+        internal static ItemData[] AllHats
         {
             get
             {
