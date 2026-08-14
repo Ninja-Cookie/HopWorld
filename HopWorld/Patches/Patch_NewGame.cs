@@ -119,8 +119,7 @@ namespace HopWorld.Patches
             }
         }
 
-        // Finds IsOnlineAndValid for adding skin options and just returns true instead because I wanted frog color as an option
-        [HarmonyPatch(typeof(ClosetInteractable), "MovePlayerToCheckpointOrSpawn")]
+        [HarmonyPatch(typeof(ClosetInteractable), "ShowStartMenu")]
         public static class Patch_ClosetInteractable_ShowStartMenu
         {
             private static MethodInfo target = AccessTools.Method(typeof(NetworkUtils), "IsOnlineAndValid", new[] { typeof(Fusion.NetworkObject) });
