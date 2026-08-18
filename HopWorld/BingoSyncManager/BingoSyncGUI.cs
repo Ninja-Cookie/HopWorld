@@ -19,7 +19,7 @@ namespace HopWorld.BingoSyncManager
         private float windowX => (Screen.width * 0.5f) - (windowW * 0.5f);
         private const float windowY = 60;
         private const float windowW = 500;
-        private const float windowH = 200;
+        private const float windowH = 220;
 
         private float elementY => 20 + (elementH * (index - 1)) + (elementPadding * index);
         public static float elementW => windowW - (elementX * 2);
@@ -106,6 +106,7 @@ namespace HopWorld.BingoSyncManager
         private string ConnectionColor      => TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connected       ? "lime"    : TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connecting ? "orange" : "red";
         private string ConnectColor         => TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Disconnected    ? "white"   : "grey";
         private string DisconnectionColor   => TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connected       ? "red"     : "grey";
+        private string GenerationColor      => TrueBingoSync.BoardGenerating || TrueBingoSync.bingoSync.Status != BingoSync.ConnectionStatus.Connected ? "grey" : "white";
 
         private void HandleGUI(int windowID)
         {
@@ -115,9 +116,6 @@ namespace HopWorld.BingoSyncManager
             {
                 PlayerColor = (int)PlayerColor >= possibleColors - 1 ? BingoSyncTypes.PlayerColors.Orange : (BingoSyncTypes.PlayerColors)((int)PlayerColor + 1);
                 TrueBingoSync.SetPlayerColor(PlayerColor);
-
-                //SetBingoSyncConfigValue(BingoConfig.bingoSyncEntry_color, PlayerColor);
-                //BingoConfig.config_bingosync.Save();
             }
 
             RoomID      = GUITextField("RoomID",    RoomID,     Color.white, Color.white, "Room ID:",       true);
@@ -134,6 +132,9 @@ namespace HopWorld.BingoSyncManager
 
             if (GUIButton($"<color={DisconnectionColor}>Disconnect</color>", Color.gray) && TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connected)
                 TrueBingoSync.Disconnect();
+
+            if (GUIButton($"<color={GenerationColor}>Generate Board</color>", Color.gray) && TrueBingoSync.bingoSync.Status == BingoSync.ConnectionStatus.Connected && !TrueBingoSync.BoardGenerating)
+                TrueBingoSync.GenerateBoard();
         }
 
         private Rect GUIWindow(int ID, string name, Color color)

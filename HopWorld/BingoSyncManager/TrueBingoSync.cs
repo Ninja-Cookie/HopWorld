@@ -1,10 +1,11 @@
 ﻿using BingoSyncAPI;
-using System.Threading.Tasks;
 using System;
-using static BingoSyncAPI.BingoSyncTypes;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UnityEngine;
+using static BingoSyncAPI.BingoSyncTypes;
 
 // ##
 // Really old ugly code pulled from an earlier project. It works.
@@ -14,6 +15,9 @@ namespace HopWorld.BingoSyncManager
 {
     internal static class TrueBingoSync
     {
+        private const string BingoBoardURL = "https://raw.githubusercontent.com/Ninja-Cookie/HopWorld/refs/heads/master/hopworld_srl5_bingosync.txt";
+        public static bool BoardGenerating = false;
+
         public static readonly BingoSync bingoSync = new BingoSync();
 
         public static bool IsUpdatingColor = false;
@@ -117,16 +121,43 @@ namespace HopWorld.BingoSyncManager
 
         public static async void JoinRoom(RoomInfo roomInfo)
         {
-            Data.DataHandler.SaveRoomInfo();
-
             if ((await bingoSync.JoinRoom(roomInfo)) == BingoSync.ConnectionStatus.Connected)
             {
                 RemoveReceivers();
                 AddReceiver(OnMessage);
+
+                Data.DataHandler.SaveRoomInfo();
             }
             else
             {
                 BingoSyncGUI.errorMessage = "Failed Connection: Check Room ID / Password";
+            }
+        }
+
+        public static async void GenerateBoard()
+        {
+            if (BoardGenerating)
+                return;
+
+            BoardGenerating = true;
+
+            try
+            {
+                if (bingoSync.Status != BingoSync.ConnectionStatus.Connected)
+                    return;
+
+                string result = await new HttpClient().GetStringAsync(BingoBoardURL);
+                if (!string.IsNullOrEmpty(result))
+                    await bingoSync.CreateNewCard(true, true, new CardIDs(18, 187), custom_json: result);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"ERROR: Failed to generate board...");
+                Debug.LogError($"{ex}");
+            }
+            finally
+            {
+                BoardGenerating = false;
             }
         }
 
