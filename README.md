@@ -26,7 +26,7 @@ NOTES:
    ##### (If a `plugins` folder does not exist, create one... the final result should look like `\Big Hops\BepInEx\plugins\HopWorld\` with two DLL files inside)
 
 ## Usage
-- Just start a New Game, you will be placed into Duster Bluffs by the cactus juicer
+- Just start a New Single Player Game, you will be placed into Duster Bluffs by the cactus juicer
 
 ## Bingo Usage
 1. Open the [BingoSync](https://bingosync.com/) website, and start a room with any settings and the Nickname you will go by
@@ -39,7 +39,7 @@ NOTES:
 - The Player Color, which should match the color you use in the room
 5. Once the rooms info is set up, press `Connect`
 6. Once connected, you can press `Generate Board`, which will automatically set up a lock-out bingo game for Big Hops
-7. All players can now start a New Game and get ready before setting off after a countdown
+7. All players can now start a New Single Player Game and get ready before setting off after a countdown
 
 ## Bingo Commands
 - Once you're connected to a game, you can use the `!help` command to get a list of commands you can use, such as the `!start` command, which will begin a countdown on-screen for all players
