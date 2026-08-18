@@ -9,7 +9,7 @@ namespace HopWorld
     {
         public const string PluginGuid      = "ninjacookie.hops.hopworld";
         public const string PluginName      = "Hop World";
-        public const string PluginVersion   = "1.0.1";
+        public const string PluginVersion   = "1.1.0";
 
         public void Awake()
         {
