@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Resources;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PanelTitle;
@@ -105,16 +104,15 @@ namespace HopWorld.Patches
                     if (ImportantGoals_Any.Any(x => goal.Name.Contains(x)) || ImportantGoals_Start.Any(x => goal.Name.StartsWith(x)))
                         SingletonPropertyItem<GoalManager>.Instance.CompleteGoal(goal);
 
-                //var data = GoalManager.Instance.LookupGoalData("VoidFinale_TakeoverFinished");
-                //SingletonPropertyItem<GoalManager>.Instance.UncompleteGoal(data);
-
                 foreach (KeyValuePair<StringHash, CostumeData> costumeKVP in Patch_ExposePrivateStatic.CostumeDataLookup)
                     player.Costume.UnlockCostume(costumeKVP.Value);
 
-                foreach(ItemData hatItem in RandomizeCostumeHandler.AllHats)
+                foreach (ItemData hatItem in RandomizeCostumeHandler.AllHats)
                     player.Inventory.TryDiscoverItemData(hatItem);
 
-                RandomizeCostumeHandler.RandomizeCostume(RandomizeCostumeHandler.RandomCostumeType.Everything);
+                if (!Data.DataHandler.LoadCosmeticInfo())
+                    RandomizeCostumeHandler.RandomizeCostume(RandomizeCostumeHandler.RandomCostumeType.Everything);
+
                 SingletonPropertyItem<SaveManager>.Instance.TrySaveWorldState(null, false);
             }
         }

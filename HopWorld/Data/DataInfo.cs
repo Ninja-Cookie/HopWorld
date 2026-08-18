@@ -42,5 +42,55 @@ namespace HopWorld.Data
                 this.version = DataInfo.VERSION;
             }
         }
+
+        [DataContract]
+        internal class BingoCosmeticsData
+        {
+            [DataMember]
+            private     float   version;
+            internal    float   VERSION         => this.version;
+            internal    bool    IsVersionValid  => this.VERSION == DataInfo.VERSION;
+
+            [DataMember]
+            private int _hatIndex;
+
+            [DataMember]
+            private int _topIndex;
+
+            [DataMember]
+            private int _topDyeIndex;
+
+            [DataMember]
+            private int _pantsIndex;
+
+            [DataMember]
+            private int _pantsDyeIndex;
+
+            [DataMember]
+            private int _frogColorIndex;
+
+            internal void EquipCosmetics()
+            {
+                RandomizeCostumeHandler.EquipHat    (_hatIndex);
+                RandomizeCostumeHandler.EquipTop    (_topIndex, _topDyeIndex);
+                RandomizeCostumeHandler.EquipPants  (_pantsIndex, _pantsDyeIndex);
+                RandomizeCostumeHandler.EquipColor  (_frogColorIndex);
+            }
+
+            internal BingoCosmeticsData(int hatIndex, int topIndex, int topDyeIndex, int pantsIndex, int pantsDyeIndex, int frogColorIndex)
+            {
+                this._hatIndex          = hatIndex;
+
+                this._topIndex          = topIndex;
+                this._topDyeIndex       = topDyeIndex;
+
+                this._pantsIndex        = pantsIndex;
+                this._pantsDyeIndex     = pantsDyeIndex;
+
+                this._frogColorIndex    = frogColorIndex;
+
+                this.version = DataInfo.VERSION;
+            }
+        }
     }
 }

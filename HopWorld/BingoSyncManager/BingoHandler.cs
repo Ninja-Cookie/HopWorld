@@ -60,11 +60,11 @@ namespace HopWorld.BingoSyncManager
             {"HealthUpgrade2",                      "Health Upgrade 2"},
             {"HealthUpgrade3",                      "Health Upgrade 3"},
 
-            {"BugMilestone_BugFinder",              "5 Bugs for Bugsy"},
-            {"BugMilestone_Heart1",                 "8 Bugs for Bugsy"},
-            {"BugMilestone_Hat",                    "15 Bugs for Bugsy"},
-            {"BugMilestone_Heart2",                 "20 Bugs for Bugsy"},
-            {"BugMilestone_Wallet",                 "25 Bugs for Bugsy"}
+            {"BugMilestone_BugFinder",              "Find 5 Bugs for Bugsy"},
+            {"BugMilestone_Heart1",                 "Find 8 Bugs for Bugsy"},
+            {"BugMilestone_Hat",                    "Find 15 Bugs for Bugsy"},
+            {"BugMilestone_Heart2",                 "Find 20 Bugs for Bugsy"},
+            {"BugMilestone_Wallet",                 "Find 25 Bugs for Bugsy"}
         };
 
         internal readonly static Dictionary<string[], string> Photos = new Dictionary<string[], string>()

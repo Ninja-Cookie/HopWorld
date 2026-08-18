@@ -117,11 +117,12 @@ namespace HopWorld.BingoSyncManager
 
         public static async void JoinRoom(RoomInfo roomInfo)
         {
-            if (await bingoSync.JoinRoom(roomInfo) == BingoSync.ConnectionStatus.Connected)
+            Data.DataHandler.SaveRoomInfo();
+
+            if ((await bingoSync.JoinRoom(roomInfo)) == BingoSync.ConnectionStatus.Connected)
             {
                 RemoveReceivers();
                 AddReceiver(OnMessage);
-                Data.DataHandler.Save();
             }
             else
             {
@@ -175,7 +176,7 @@ namespace HopWorld.BingoSyncManager
             IsUpdatingColor = false;
 
             if (bingoSync?.Status == BingoSync.ConnectionStatus.Connected)
-                Data.DataHandler.Save();
+                Data.DataHandler.SaveRoomInfo();
         }
     }
 }

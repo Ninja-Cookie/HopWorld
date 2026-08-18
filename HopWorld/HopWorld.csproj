@@ -109,6 +109,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Patches\Patch_Achievements.cs" />
     <Compile Include="Patches\Patch_BingoChecks.cs" />
+    <Compile Include="Patches\Patch_Closet.cs" />
     <Compile Include="Patches\Patch_ExposePrivateStatic.cs" />
     <Compile Include="Patches\Patch_Init.cs" />
     <Compile Include="Patches\Patch_NewGame.cs" />

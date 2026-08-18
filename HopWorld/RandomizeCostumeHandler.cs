@@ -34,7 +34,7 @@ namespace HopWorld
         }
 
         private static CostumeData[] _allCostumes;
-        private static CostumeData[] AllCostumes
+        internal static CostumeData[] AllCostumes
         {
             get
             {
@@ -48,7 +48,7 @@ namespace HopWorld
         }
 
         private static PlayerSkinData[] _allSkins;
-        private static PlayerSkinData[] AllSkins
+        internal static PlayerSkinData[] AllSkins
         {
             get
             {
@@ -60,7 +60,7 @@ namespace HopWorld
         }
 
         private static DyeColorData[] _allDyes;
-        private static DyeColorData[] AllDyes
+        internal static DyeColorData[] AllDyes
         {
             get
             {
@@ -74,7 +74,7 @@ namespace HopWorld
         }
 
         private static CostumePartData[] _allTops;
-        private static CostumePartData[] AllTops
+        internal static CostumePartData[] AllTops
         {
             get
             {
@@ -86,7 +86,7 @@ namespace HopWorld
         }
 
         private static CostumePartData[] _allPants;
-        private static CostumePartData[] AllPants
+        internal static CostumePartData[] AllPants
         {
             get
             {
@@ -115,6 +115,12 @@ namespace HopWorld
             Color
         }
 
+        private static bool IsValidHat      (int index) => AllHats  .Length > index && index >= 0;
+        private static bool IsValidTop      (int index) => AllTops  .Length > index && index >= 0;
+        private static bool IsValidPants    (int index) => AllPants .Length > index && index >= 0;
+        private static bool IsValidDye      (int index) => AllDyes  .Length > index && index >= 0;
+        private static bool IsValidSkin     (int index) => AllSkins .Length > index && index >= 0;
+
         public static void RandomizeCostume(RandomCostumeType costumeType = RandomCostumeType.CostumeOnly)
         {
             List<CostumePart> costumePartsToChange = new List<CostumePart>();
@@ -129,36 +135,58 @@ namespace HopWorld
                         costumePartsToChange.Add(CostumePart.Color);
                     break;
 
-                case RandomCostumeType.TopOnly: costumePartsToChange.Add(CostumePart.Top); break;
-                case RandomCostumeType.PantsOnly: costumePartsToChange.Add(CostumePart.Bottom); break;
-                case RandomCostumeType.HatOnly: costumePartsToChange.Add(CostumePart.Hat); break;
-                case RandomCostumeType.FrogColorOnly: costumePartsToChange.Add(CostumePart.Color); break;
+                case RandomCostumeType.TopOnly:         costumePartsToChange.Add(CostumePart.Top);      break;
+                case RandomCostumeType.PantsOnly:       costumePartsToChange.Add(CostumePart.Bottom);   break;
+                case RandomCostumeType.HatOnly:         costumePartsToChange.Add(CostumePart.Hat);      break;
+                case RandomCostumeType.FrogColorOnly:   costumePartsToChange.Add(CostumePart.Color);    break;
             }
 
             foreach (var partToChange in costumePartsToChange)
                 EquipRandomPart(partToChange);
         }
 
+        public static void EquipHat(int hatIndex)
+        {
+            if (IsValidHat(hatIndex))
+                EquipHat(AllHats[hatIndex]);
+            else
+                RemovePlayerHat();
+        }
+
+        public static void EquipTop(int topIndex, int dyeIndex)
+        {
+            if (!IsValidTop(topIndex) || !IsValidDye(dyeIndex))
+                return;
+
+            Player?.Costume?.SetCostumePart(AllTops[topIndex], AllDyes[dyeIndex]);
+        }
+
+        public static void EquipPants(int pantsIndex, int dyeIndex)
+        {
+            if (!IsValidPants(pantsIndex) || !IsValidDye(dyeIndex))
+                return;
+
+            Player?.Costume?.SetCostumePart(AllPants[pantsIndex], AllDyes[dyeIndex]);
+        }
+
+        public static void EquipColor(int colorIndex)
+        {
+            if (!IsValidSkin(colorIndex))
+                return;
+
+            Player?.Costume?.SetBaseSkinColor(AllSkins[colorIndex]);
+        }
+
         private static void EquipRandomPart(CostumePart typeOfPart)
         {
+            var dye = UnityEngine.Random.Range(0, AllDyes.Length);
+
             switch (typeOfPart)
             {
-                case CostumePart.Top:
-                case CostumePart.Bottom:
-                    var part = typeOfPart == CostumePart.Top ? AllTops[UnityEngine.Random.Range(0, AllTops.Length)] : AllPants[UnityEngine.Random.Range(0, AllPants.Length)];
-                    var dye = AllDyes[UnityEngine.Random.Range(0, AllDyes.Length)];
-                    Player?.Costume?.SetCostumePart(part, dye);
-                    break;
-
-                case CostumePart.Hat:
-                    var range = UnityEngine.Random.Range(0, AllHats.Length + 1);
-                    if (range < AllHats.Length)
-                        EquipHat(AllHats[range]);
-                    else
-                        RemovePlayerHat();
-                    break;
-
-                case CostumePart.Color: Player?.Costume?.SetBaseSkinColor(AllSkins[UnityEngine.Random.Range(0, AllSkins.Length)]); break;
+                case CostumePart.Top:       EquipTop    (UnityEngine.Random.Range(0, AllTops    .Length), dye); break;
+                case CostumePart.Bottom:    EquipPants  (UnityEngine.Random.Range(0, AllPants   .Length), dye); break;
+                case CostumePart.Hat:       EquipHat    (UnityEngine.Random.Range(0, AllHats    .Length + 1));  break;
+                case CostumePart.Color:     EquipColor  (UnityEngine.Random.Range(0, AllSkins   .Length));      break;
             }
         }
 

@@ -16,7 +16,7 @@ namespace HopWorld
             var harmony = new Harmony(PluginGuid);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            Data.DataHandler.Load();
+            Data.DataHandler.LoadRoomInfo();
         }
     }
 }
