@@ -45,6 +45,6 @@ NOTES:
 - Once you're connected to a game, you can use the `!help` command to get a list of commands you can use, such as the `!start` command, which will begin a countdown on-screen for all players
 
 ## Rules
-- Each objective on the board is 1 point, a bingo line (5 in a row either vertical, horizontal, or diagonal) is 1 bonus point, so for example, a full line of 5 filled objectives would be 1 point for each objective, plus 1 extra point for the line, equalling a total of 6 points
+- Each objective on the board is 1 point, a bingo line (5 in a row either vertical, horizontal, or diagonal) is 1 bonus point, so for example, a full line of 5 filled objectives would be 1 point for each objective, plus 1 extra point for the line, equalling a total of 6 points for your team color
 
 [hopworld-icon]: https://github.com/user-attachments/assets/4358b47f-499c-44f8-869a-68f6f5142526
