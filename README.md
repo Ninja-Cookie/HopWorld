@@ -22,7 +22,7 @@ NOTES:
    ##### (The BepInEx folder and other contents should now be in the same directory as `Big Hops.exe`)
 4. Go to **[HopWorld's Releases](https://github.com/Ninja-Cookie/HopWorld/releases)** and get the latest ZIP/7z file containing the plugin.
    ##### (May require [7-Zip](https://7-zip.org/download.html))
-5. Open the **HopWorld** ZIP file, and extract the folder to inside your `\Big Hops\BepInEx\plugins\` folder.
+5. Open the **HopWorld** ZIP/7z file, and extract the folder to inside your `\Big Hops\BepInEx\plugins\` folder.
    ##### (If a `plugins` folder does not exist, create one... the final result should look like `\Big Hops\BepInEx\plugins\HopWorld\` with two DLL files inside)
 
 ## Usage
